@@ -4,6 +4,8 @@ import { ReservationService } from '../service/reservation.service';
 import { Reservation } from '../model/reservation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
+import { checkInDateValidator } from '../validators/checkIn.date';
+import { CheckOutDateValidator } from '../validators/checkOut.date';
 
 @Component({
   selector: 'app-reservation-form',
@@ -17,8 +19,8 @@ export class ReservationFormComponent implements OnInit{
   reservationForm: FormGroup =   this.fb.group({
     guestName: ['', [Validators.required, Validators.minLength(3)]],
     guestEmail: ['', [Validators.required, Validators.email]],
-    checkInDate: [new Date(), [Validators.required]],
-    checkOutDate: [new Date(), [Validators.required]],
+    checkInDate: [new Date(), [Validators.required, checkInDateValidator()]],
+    checkOutDate: [new Date(), [Validators.required, CheckOutDateValidator()]],
     roomNumber: ['', Validators.required]
   });
   constructor(

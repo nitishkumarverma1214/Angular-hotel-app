@@ -33,6 +33,8 @@
             @if(reservationForm.get('checkInDate')?.invalid && (reservationForm.get('checkInDate')?.touched || reservationForm.get('checkInDate')?.dirty)){
                 @if(reservationForm.controls['checkInDate'].errors?.['required']){
                     <small class="text-danger">Check-In is required.</small>
+                }@else if(reservationForm.controls['checkInDate'].hasError('inValidCheckInDate')){
+                    <small class="text-danger">Invalid check in date</small>
                 }
                
             }
@@ -44,6 +46,8 @@
             @if(reservationForm.get('checkOutDate')?.invalid && (reservationForm.get('checkOutDate')?.touched || reservationForm.get('checkOutDate')?.dirty)){
                 @if(reservationForm.controls['checkOutDate'].errors?.['required']){
                     <small class="text-danger">Check-out is required.</small>
+                }@else if(reservationForm.controls['checkOutDate'].hasError('inValidCheckOutDate')){
+                    <small class="text-danger">Invalid Check-Out date</small>
                 }
                
             }
