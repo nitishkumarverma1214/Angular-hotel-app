@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Reservation } from '../model/reservation';
 import { ReservationService } from '../service/reservation.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-reservation-list',
   standalone: true,
-  imports: [DatePipe, RouterLink, HomeComponent],
+  imports: [DatePipe, RouterLink, HomeComponent, NgTemplateOutlet],
   templateUrl: './reservation-list.component.html',
   styleUrl: './reservation-list.component.css'
 })

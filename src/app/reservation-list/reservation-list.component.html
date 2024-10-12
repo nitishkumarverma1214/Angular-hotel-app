@@ -2,39 +2,43 @@
 <div>
     <h2 class="text-title m-5 text-center">Upcoming Reservations</h2>
 
-    <table class="table table-striped ">
-        <thead>
-            <th>Guest Name</th>
-            <th>Guest Email</th>
-            <th>Check-In Date</th>
-            <th>Check-Out Date</th>
-            <th>Room Number</th>
-            <th>Action</th>
+    @if (reservations.length) {
 
-        </thead>
-        <tbody>
-            @for (reservation of reservations; track reservation.id) {
-            <tr>
-                <td>{{reservation.guestName}}</td>
-                <td>{{reservation.guestEmail}}</td>
-                <td>{{reservation.checkInDate| date:'short'}}</td>
-                <td>{{reservation.checkOutDate |  date:'short'}}</td>
-                <td>{{reservation.roomNumber}}</td>
-                <td>
-                <button class="btn btn-sm btn-danger mx-1" (click)="deleteReservation(reservation.id)">Delete</button>
-                <button class="btn btn-sm btn-warning mx-1" [routerLink]="['/edit', reservation.id]" >Edit</button>
-                </td>
-
-            </tr>
-        }
-        </tbody>
-    </table>
+        <table class="table table-striped ">
+            <thead>
+                <th>Guest Name</th>
+                <th>Guest Email</th>
+                <th>Check-In Date</th>
+                <th>Check-Out Date</th>
+                <th>Room Number</th>
+                <th>Action</th>
+    
+            </thead>
+            <tbody>
+                @for (reservation of reservations; track reservation.id) {
+                <tr>
+                    <td>{{reservation.guestName}}</td>
+                    <td>{{reservation.guestEmail}}</td>
+                    <td>{{reservation.checkInDate| date:'short'}}</td>
+                    <td>{{reservation.checkOutDate |  date:'short'}}</td>
+                    <td>{{reservation.roomNumber}}</td>
+                    <td>
+                    <button class="btn btn-sm btn-danger mx-1" (click)="deleteReservation(reservation.id)">Delete</button>
+                    <button class="btn btn-sm btn-warning mx-1" [routerLink]="['/edit', reservation.id]" >Edit</button>
+                    </td>
+    
+                </tr>
+            }
+            </tbody>
+        </table>
+    }@else{
+        <ng-container [ngTemplateOutlet]="noReservation"></ng-container>
+    }
    
      
-    <ng-template>
-
-        <p class="list-group-item">
-            Reservation for  from  to 
+    <ng-template #noReservation>
+        <p class="text-center">
+            No Upcoming Reservations
         </p>
     </ng-template>
     
