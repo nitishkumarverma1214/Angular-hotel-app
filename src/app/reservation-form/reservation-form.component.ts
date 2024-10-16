@@ -6,11 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { checkInDateValidator } from '../validators/checkIn.date';
 import { CheckOutDateValidator } from '../validators/checkOut.date';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-reservation-form',
   standalone: true,
   imports: [ReactiveFormsModule, HomeComponent],
+  providers: [DatePipe],
   templateUrl: './reservation-form.component.html',
   styleUrl: './reservation-form.component.css'
 })
@@ -27,7 +29,8 @@ export class ReservationFormComponent implements OnInit{
     private fb: FormBuilder, 
     private reservationService: ReservationService, 
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private datePipe: DatePipe
   ){  
   }
 
@@ -35,10 +38,13 @@ export class ReservationFormComponent implements OnInit{
    
    const id = this.activatedRoute.snapshot.paramMap.get('id');
    if(id){
-    const reservation = this.reservationService.getReservation(id);
-    if(reservation){
-      this.reservationForm.patchValue(reservation)
-    }
+    this.reservationService.getReservation(id).subscribe(reservation=>{
+      if(reservation){
+        reservation.checkInDate = this.datePipe.transform(reservation.checkInDate, 'yyyy-MM-dd') as any;
+        reservation.checkOutDate = this.datePipe.transform(reservation.checkOutDate, 'yyyy-MM-dd') as any;
+        this.reservationForm.patchValue(reservation)
+      }
+    })
    }
   }
 
@@ -46,9 +52,13 @@ export class ReservationFormComponent implements OnInit{
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     const reservation = this.reservationForm.value;
     if(id){
-      this.reservationService.updateReservation(id,reservation)
+      this.reservationService.updateReservation(id,reservation).subscribe(_=>{
+        console.log('update reservation processed')
+      })
     }else{
-      this.reservationService.addReservation(reservation);
+      this.reservationService.addReservation(reservation).subscribe(_=>{
+        console.log('creating new reservation processed.')
+      })
     }
     this.reservationForm.reset();
     this.router.navigate(["/list"]);
